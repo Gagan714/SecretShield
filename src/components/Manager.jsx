@@ -13,7 +13,7 @@ const Manager = () => {
             </div>
           <div className="relative">
             <input placeholder='Enter Password' className="rounded-3xl border border-black px-2 py-1 text-black" type="text" />
-            <img src="" className="absolute right-0 top-0" alt="" />
+            <img src="src/assets/eyecross.png" className="absolute right-2 top-2 h-5 w-5" alt="eye" />
             </div>
         </div>
         <button className="flex justify-center items-center my-2 py-1 border-black bg-blue-500 text-black px-3 rounded-2xl">
