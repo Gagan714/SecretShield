@@ -1,5 +1,6 @@
 import React, { useRef, useState,useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 import 'react-toastify/dist/ReactToastify.css';
 const Manager = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,8 +23,8 @@ const Manager = () => {
       alert("Please fill in all fields");
       return;
     }
-    setpasswordarray([...passwordarray,form])
-    localStorage.setItem("passwords",JSON.stringify([...passwordarray,form]))
+    setpasswordarray([...passwordarray,{...form,id:uuidv4()}])
+    localStorage.setItem("passwords",JSON.stringify([...passwordarray,{...form,id:uuidv4()}]))
   }
   const handleChange=(e)=>{
     setform({...form,[e.target.name]:e.target.value})
@@ -41,6 +42,26 @@ const Manager = () => {
       });
     navigator.clipboard.writeText(text)
   })
+  const saveToLocal = (tasks) => {
+    localStorage.setItem("passwords", JSON.stringify(tasks))
+  };
+  const handleDelete = (Id) => {
+    const updatedTasks = passwordarray.filter((item) => item.id !==Id);
+    setpasswordarray(updatedTasks);
+    saveToLocal(updatedTasks);
+  };
+  const handleEdit = (Id) => {
+    const passwordToEdit = passwordarray.find((item) => item.id === Id);
+    setform({
+      site: passwordToEdit.site,
+      username: passwordToEdit.username,
+      password: passwordToEdit.password
+    });
+    const updatedPasswords = passwordarray.filter((item) => item.id !== Id);
+    setpasswordarray(updatedPasswords);
+    saveToLocal(updatedPasswords);
+  };
+  
 
   return (
     <div>
@@ -120,9 +141,9 @@ transition="Bounce"
   </span>
   </div></td>
   <td className="border border-white w-1/4"><div className="flex items-center justify-center gap-3">
-  <span className="hover:cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" height="15px" width="15px" viewBox="0 0 24 24" id="edit"><path d="M3.5,24h15A3.51,3.51,0,0,0,22,20.487V12.95a1,1,0,0,0-2,0v7.537A1.508,1.508,0,0,1,18.5,22H3.5A1.508,1.508,0,0,1,2,20.487V5.513A1.508,1.508,0,0,1,3.5,4H11a1,1,0,0,0,0-2H3.5A3.51,3.51,0,0,0,0,5.513V20.487A3.51,3.51,0,0,0,3.5,24Z"></path><path d="M9.455,10.544l-.789,3.614a1,1,0,0,0,.271.921,1.038,1.038,0,0,0,.92.269l3.606-.791a1,1,0,0,0,.494-.271l9.114-9.114a3,3,0,0,0,0-4.243,3.07,3.07,0,0,0-4.242,0l-9.1,9.123A1,1,0,0,0,9.455,10.544Zm10.788-8.2a1.022,1.022,0,0,1,1.414,0,1.009,1.009,0,0,1,0,1.413l-.707.707L19.536,3.05Zm-8.9,8.914,6.774-6.791,1.4,1.407-6.777,6.793-1.795.394Z"></path></svg>
+  <span className="hover:cursor-pointer" onClick={()=>{handleEdit(item.id)}}><svg xmlns="http://www.w3.org/2000/svg" height="15px" width="15px" viewBox="0 0 24 24" id="edit"><path d="M3.5,24h15A3.51,3.51,0,0,0,22,20.487V12.95a1,1,0,0,0-2,0v7.537A1.508,1.508,0,0,1,18.5,22H3.5A1.508,1.508,0,0,1,2,20.487V5.513A1.508,1.508,0,0,1,3.5,4H11a1,1,0,0,0,0-2H3.5A3.51,3.51,0,0,0,0,5.513V20.487A3.51,3.51,0,0,0,3.5,24Z"></path><path d="M9.455,10.544l-.789,3.614a1,1,0,0,0,.271.921,1.038,1.038,0,0,0,.92.269l3.606-.791a1,1,0,0,0,.494-.271l9.114-9.114a3,3,0,0,0,0-4.243,3.07,3.07,0,0,0-4.242,0l-9.1,9.123A1,1,0,0,0,9.455,10.544Zm10.788-8.2a1.022,1.022,0,0,1,1.414,0,1.009,1.009,0,0,1,0,1.413l-.707.707L19.536,3.05Zm-8.9,8.914,6.774-6.791,1.4,1.407-6.777,6.793-1.795.394Z"></path></svg>
   </span>
-  <span className="hover:cursor-pointer">
+  <span className="hover:cursor-pointer" onClick={()=>{handleDelete(item.id)}}>
   <lord-icon
     src="https://cdn.lordicon.com/skkahier.json"
     trigger="hover"
