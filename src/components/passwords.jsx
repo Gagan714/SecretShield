@@ -2,7 +2,7 @@ import React from 'react'
 
 const passwords = () => {
   return (
-    <div className="passwords">
+    <div>
         <h2>Your Passwords</h2>
       </div>
   )
