@@ -1,6 +1,6 @@
 import React from 'react'
 
-const passwords = () => {
+const Passwords = () => {
   return (
     <div>
         <h2>Your Passwords</h2>
@@ -8,4 +8,4 @@ const passwords = () => {
   )
 }
 
-export default passwords
+export default Passwords
