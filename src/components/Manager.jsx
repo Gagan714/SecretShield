@@ -23,6 +23,16 @@ const Manager = () => {
       alert("Please fill in all fields");
       return;
     }
+    toast('Password Saved', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
     setpasswordarray([...passwordarray,{...form,id:uuidv4()}])
     localStorage.setItem("passwords",JSON.stringify([...passwordarray,{...form,id:uuidv4()}]))
   }
@@ -38,7 +48,7 @@ const Manager = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: "dark",
       });
     navigator.clipboard.writeText(text)
   })
@@ -46,9 +56,22 @@ const Manager = () => {
     localStorage.setItem("passwords", JSON.stringify(tasks))
   };
   const handleDelete = (Id) => {
+    let c=confirm("Do you want to delete this Password")
+    if(c){
     const updatedTasks = passwordarray.filter((item) => item.id !==Id);
     setpasswordarray(updatedTasks);
     saveToLocal(updatedTasks);
+    toast('Password Deleted', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+    }
   };
   const handleEdit = (Id) => {
     const passwordToEdit = passwordarray.find((item) => item.id === Id);
@@ -57,9 +80,6 @@ const Manager = () => {
       username: passwordToEdit.username,
       password: passwordToEdit.password
     });
-    const updatedPasswords = passwordarray.filter((item) => item.id !== Id);
-    setpasswordarray(updatedPasswords);
-    saveToLocal(updatedPasswords);
   };
   
 
@@ -109,7 +129,7 @@ transition="Bounce"
         </button>
       </div>
     </div>
-    <div className="flex justify-center items-center my-2">
+    <div className="flex justify-center items-center my-5">
     <div className="w-2/3 flex flex-col justify-center items-center text-center text-black rounded-xl">
     <h2 className="font-bold text-2xl ">Your Passwords</h2>
     {passwordarray.length===0 && <div>No passwords to show</div>}
