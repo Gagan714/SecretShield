@@ -60,24 +60,22 @@ const Manager = () => {
       });
     navigator.clipboard.writeText(text)
   })
-  const handleDelete = async (Id) => {
-    let c=confirm("Do you want to delete this Password")
-    if(c){
-    const updatedTasks = passwordarray.filter((item) => item.id !==Id);
-    setpasswordarray(updatedTasks);
-    await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
-    toast('Password Deleted', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      });
+  const handleDelete = async (id) => {
+    let c = confirm("Do you really want to delete this password?")
+    if (c) {
+        setpasswordarray(passwordarray.filter(item => item.id !== id))
+        await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
+        toast('Password Deleted!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true, 
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
     }
-  };
+}
   const handleEdit = (Id) => {
     const passwordToEdit = passwordarray.find((item) => item.id === Id);
     setform({
